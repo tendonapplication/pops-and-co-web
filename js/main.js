@@ -29,9 +29,29 @@ menuBoton.addEventListener('click', () => {
 menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', cerrarMenu));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
 
-// Aparecer al hacer scroll
-const animables = document.querySelectorAll('.titulo, .vitrina__escenario, .vitrina__info, .paso, .estante, .negocios__cierre, .nosotros__texto, .datos li, .contacto__texto, .formulario');
-if ('IntersectionObserver' in window) {
+// Aparecer al hacer scroll (con distintas entradas según el elemento)
+const sinMovimientoTemprano = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Títulos: se parten en palabras que suben una por una
+document.querySelectorAll('main h2').forEach((h) => {
+  const palabras = h.textContent.trim().split(' ');
+  h.setAttribute('aria-label', h.textContent.trim());
+  h.innerHTML = palabras.map((p, i) =>
+    `<span class="palabra" aria-hidden="true"><span style="transition-delay:${i * 70}ms">${p}</span></span>`).join(' ');
+  h.classList.add('titulo-anim');
+});
+
+const variantes = [
+  ['main h2', null],
+  ['.vitrina__escenario', 'zoom'],
+  ['.paso', 'cortina'],
+  ['.ventajas li', 'cortina'],
+  ['.datos li', 'desde-izq'],
+  ['.formulario', 'desde-der'],
+  ['.caja', null],
+  ['.titulo > p, .vitrina__tabs, .vitrina__detalle, .estante, .negocios__cierre, .nosotros__texto p, .contacto__texto p, .distribuidores__intro', ''],
+];
+if ('IntersectionObserver' in window && !sinMovimientoTemprano) {
   const observador = new IntersectionObserver((entradas) => {
     entradas.forEach((entrada) => {
       if (entrada.isIntersecting) {
@@ -39,13 +59,50 @@ if ('IntersectionObserver' in window) {
         observador.unobserve(entrada.target);
       }
     });
-  }, { threshold: 0.12 });
-  animables.forEach((el, i) => {
-    el.classList.add('aparece');
-    el.style.transitionDelay = `${(i % 5) * 60}ms`;
-    observador.observe(el);
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  variantes.forEach(([selector, tipo]) => {
+    document.querySelectorAll(selector).forEach((el, i) => {
+      if (tipo !== null) {
+        el.classList.add('aparece');
+        if (tipo) el.classList.add(tipo);
+        el.style.transitionDelay = `${(i % 5) * 90}ms`;
+      }
+      observador.observe(el);
+    });
   });
+} else {
+  document.querySelectorAll('.titulo-anim, .caja').forEach((el) => el.classList.add('visible'));
 }
+
+// Números que cuentan hacia arriba (5 sabores, 140 g)
+document.querySelectorAll('.datos strong').forEach((el) => {
+  const m = el.textContent.match(/^(\d+)(.*)$/s);
+  if (!m || sinMovimientoTemprano || !('IntersectionObserver' in window)) return;
+  const final = parseInt(m[1], 10);
+  const resto = m[2];
+  el.textContent = `0${resto}`;
+  new IntersectionObserver(([e], obs) => {
+    if (!e.isIntersecting) return;
+    obs.disconnect();
+    const inicio = performance.now();
+    const paso = (t) => {
+      const k = Math.min((t - inicio) / 1200, 1);
+      el.textContent = `${Math.round(final * (1 - Math.pow(1 - k, 3)))}${resto}`;
+      if (k < 1) requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+  }, { threshold: 0.6 }).observe(el);
+});
+
+// Barra de progreso al bajar
+const progreso = document.getElementById('progreso');
+const medirAvance = () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progreso.style.setProperty('--avance', max > 0 ? (window.scrollY / max).toFixed(4) : 0);
+};
+window.addEventListener('scroll', medirAvance, { passive: true });
+window.addEventListener('resize', medirAvance);
+medirAvance();
 
 const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const conRaton = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -190,6 +247,28 @@ if (autoActivo && 'IntersectionObserver' in window) {
 const formulario = document.getElementById('formulario');
 const aviso = document.getElementById('formulario-aviso');
 
+const textosInteres = {
+  tienda: { negocio: 'Nombre de tu negocio', direccion: 'Colonia o dirección',
+    saludo: '¡Hola, POPS & CO! Me interesa vender sus palomitas en mi negocio.' },
+  distribuidor: { negocio: 'Nombre de tu negocio o empresa', direccion: 'Zona donde vendes',
+    saludo: '¡Hola, POPS & CO! Me interesa ser distribuidor y conocer sus precios de mayoreo y pedido mínimo.' },
+};
+const interesActual = () => formulario.elements.interes.value || 'tienda';
+const actualizarInteres = () => {
+  const t = textosInteres[interesActual()];
+  document.getElementById('etiqueta-negocio').textContent = t.negocio;
+  document.getElementById('etiqueta-direccion').textContent = t.direccion;
+};
+formulario.querySelectorAll('input[name="interes"]').forEach((r) => r.addEventListener('change', actualizarInteres));
+document.querySelectorAll('[data-interes]').forEach((b) => b.addEventListener('click', () => {
+  const radio = formulario.querySelector(`input[name="interes"][value="${b.dataset.interes}"]`);
+  if (radio) { radio.checked = true; actualizarInteres(); }
+}));
+document.querySelectorAll('a[href="#contacto"]:not([data-interes])').forEach((b) => b.addEventListener('click', () => {
+  formulario.querySelector('input[name="interes"][value="tienda"]').checked = true;
+  actualizarInteres();
+}));
+
 formulario.addEventListener('submit', (e) => {
   e.preventDefault();
   aviso.classList.remove('error');
@@ -219,12 +298,13 @@ formulario.addEventListener('submit', (e) => {
     return;
   }
 
+  const t = textosInteres[interesActual()];
   const lineas = [
-    '¡Hola, POPS & CO! Me interesa vender sus palomitas en mi negocio.',
+    t.saludo,
     `Nombre: ${nombre}`,
     `Negocio: ${negocio}`,
   ];
-  if (direccion) lineas.push(`Dirección: ${direccion}`);
+  if (direccion) lineas.push(`${t.direccion}: ${direccion}`);
   if (mensaje) lineas.push(`Mensaje: ${mensaje}`);
 
   const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(lineas.join('\n'))}`;

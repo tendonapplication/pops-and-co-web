@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>POPS &amp; CO · Palomitas de Delicias, Chihuahua</title>
-  <meta name="description" content="POPS & CO: palomitas hechas en Delicias, Chihuahua. Cinco sabores en paquetes de 140 g. Llevamos el producto a tu tienda y tú ganas una comisión por cada venta.">
+  <meta name="description" content="POPS & CO: palomitas hechas en Delicias, Chihuahua. Cinco sabores en paquetes de 140 g. Llevamos el producto a tu tienda y tú ganas una comisión por cada venta. Precios de mayoreo para distribuidores.">
   <meta name="theme-color" content="#FFC72C">
   <link rel="canonical" href="https://popsandco.com.mx/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -21,10 +21,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@600;700;800&family=Google+Sans:wght@400;500;700&family=Anuphan:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/img/bolsas/queso.webp">
   <link rel="stylesheet" href="css/estilos.css">
+  <script>try{if(!sessionStorage.getItem('telon')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('con-telon');sessionStorage.setItem('telon','1')}}catch(e){}</script>
 </head>
 <body>
 
   <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <div class="telon" id="telon" aria-hidden="true">
+    <img src="assets/img/logo-blanco.png" alt="" width="1489" height="243">
+  </div>
+  <div class="progreso" id="progreso" aria-hidden="true"></div>
+
+  <div class="barra-superior">
+    <div class="contenedor barra-superior__fila">
+      <p>Propiedad de <strong>GRUPO CABENA</strong></p>
+      <p class="barra-superior__der">Línea para pedidos: <a href="https://wa.me/526695059646">669 505 9646</a></p>
+    </div>
+  </div>
 
   <header class="encabezado" id="encabezado">
     <div class="contenedor encabezado__fila">
@@ -37,6 +50,7 @@
       <nav class="menu" id="menu" aria-label="Principal">
         <a href="#sabores">Sabores</a>
         <a href="#negocios">Para tu negocio</a>
+        <a href="#distribuidores">Distribuidores</a>
         <a href="#nosotros">Nosotros</a>
         <a href="#contacto" class="boton boton--morado boton--chico">Véndelas en tu tienda</a>
       </nav>
@@ -57,12 +71,13 @@
       </div>
       <div class="contenedor portada__fila">
         <div class="portada__texto">
-          <p class="etiqueta">Palomitas hechas en Delicias, Chihuahua</p>
-          <h1>De puñito en puñito <span>sabe mejor.</span></h1>
+          <p class="etiqueta">Palomitas de maíz · Delicias, Chihuahua</p>
+          <h1>Cinco sabores, <span>un solo antojo.</span></h1>
+          <p class="lema">De puñito en puñito sabe mejor.</p>
           <p class="portada__intro">Cinco sabores, paquetes de 140&nbsp;g y una forma muy sencilla de tenerlas en tu negocio: nosotros las llevamos y tú ganas por cada venta.</p>
           <div class="botones">
             <a href="#negocios" class="boton boton--morado">Quiero venderlas</a>
-            <a href="#sabores" class="boton boton--borde">Ver los sabores</a>
+            <a href="#distribuidores" class="boton boton--borde">Quiero distribuirlas</a>
           </div>
         </div>
         <div class="portada__dibujo" aria-hidden="true">
@@ -73,6 +88,13 @@
       </div>
       <svg class="onda" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 Q180 0 360 40 T720 40 T1080 40 T1440 40 V80 H0 Z" fill="#FFFBF2"/></svg>
     </section>
+
+    <div class="cinta" aria-hidden="true">
+      <div class="cinta__pista">
+        <span>Tradicional</span><i></i><span>Queso</span><i></i><span>Queso Jalapeño</span><i></i><span>Habanero Limón</span><i></i><span>Adobado</span><i></i><span>140 g</span><i></i>
+        <span>Tradicional</span><i></i><span>Queso</span><i></i><span>Queso Jalapeño</span><i></i><span>Habanero Limón</span><i></i><span>Adobado</span><i></i><span>140 g</span><i></i>
+      </div>
+    </div>
 
     <!-- SABORES -->
     <section class="seccion seccion--crema" id="sabores">
@@ -150,8 +172,53 @@
         </div>
 
         <div class="negocios__cierre">
-          <p>¿Tienes una tienda, abarrotes, papelería o cafetería en Delicias?</p>
+          <p>¿Tienes una tienda de abarrotes, minisúper o expendio en Delicias?</p>
           <a href="#contacto" class="boton boton--amarillo">Quiero tenerlas en mi negocio</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISTRIBUIDORES -->
+    <section class="seccion seccion--oscuro" id="distribuidores">
+      <div class="contenedor distribuidores">
+        <div class="distribuidores__texto">
+          <p class="etiqueta">Distribuidores</p>
+          <h2>¿Ya tienes clientes? Distribuye POPS&nbsp;&amp;&nbsp;CO</h2>
+          <p class="distribuidores__intro">Si eres vendedor y ya atiendes tiendas y puntos de venta, te ofrecemos <strong>precios de mayoreo</strong> para que ganes llevando nuestras palomitas a tus clientes.</p>
+          <ul class="ventajas">
+            <li>
+              <span class="ventajas__icono" aria-hidden="true">$</span>
+              <div><h3>Precio de mayorista</h3><p>Un precio especial por paquete para que tengas buen margen de ganancia.</p></div>
+            </li>
+            <li>
+              <span class="ventajas__icono" aria-hidden="true">#</span>
+              <div><h3>Pedido mínimo</h3><p>Trabajamos con una cantidad mínima por pedido. Te la compartimos al contactarnos.</p></div>
+            </li>
+            <li>
+              <span class="ventajas__icono" aria-hidden="true">5</span>
+              <div><h3>Los cinco sabores</h3><p>Arma tu pedido combinando sabores según lo que más piden tus clientes.</p></div>
+            </li>
+            <li>
+              <span class="ventajas__icono" aria-hidden="true">✓</span>
+              <div><h3>Tus clientes son tuyos</h3><p>Tú atiendes a tus tiendas y puntos de venta; nosotros te surtimos.</p></div>
+            </li>
+          </ul>
+          <a href="#contacto" class="boton boton--amarillo" data-interes="distribuidor">Quiero ser distribuidor</a>
+        </div>
+
+        <div class="caja" aria-hidden="true">
+          <div class="caja__bolsas">
+            <img src="assets/img/bolsas/habanero-limon.webp" alt="" width="540" height="1200" loading="lazy">
+            <img src="assets/img/bolsas/queso-jalapeno.webp" alt="" width="540" height="1200" loading="lazy">
+            <img src="assets/img/bolsas/queso.webp" alt="" width="540" height="1200" loading="lazy">
+            <img src="assets/img/bolsas/adobado.webp" alt="" width="540" height="1200" loading="lazy">
+            <img src="assets/img/bolsas/tradicional.webp" alt="" width="540" height="1200" loading="lazy">
+          </div>
+          <div class="caja__frente">
+            <img src="assets/img/logo-morado.png" alt="" width="1489" height="243">
+            <span>Pedido de mayoreo</span>
+          </div>
+          <div class="caja__sello">Precio<br>mayorista</div>
         </div>
       </div>
     </section>
@@ -161,8 +228,8 @@
       <div class="contenedor nosotros">
         <div class="nosotros__texto">
           <p class="etiqueta etiqueta--morado">Nosotros</p>
-          <h2>Hechas en Delicias, con cariño de casa</h2>
-          <p>POPS &amp; CO nació en 2025 en Delicias, Chihuahua, con una idea sencilla: hacer palomitas ricas, de sabores que nos gustan, y que estén al alcance de la mano en las tiendas de nuestra ciudad.</p>
+          <h2>Hechas en Delicias, Chihuahua</h2>
+          <p>POPS &amp; CO nació en 2025 en Delicias, Chihuahua, con una idea sencilla: hacer palomitas ricas, en sabores que a todos se nos antojan, y que estén al alcance de la mano en las tiendas de nuestra ciudad.</p>
           <p>Nosotros las preparamos, las empacamos y las llevamos a cada negocio. Por ahora estamos solo en Delicias, y vamos creciendo de puñito en puñito.</p>
         </div>
         <ul class="datos">
@@ -178,18 +245,23 @@
       <div class="contenedor contacto">
         <div class="contacto__texto">
           <p class="etiqueta etiqueta--morado">Contacto</p>
-          <h2>¿Las quieres en tu negocio?</h2>
+          <h2>¿Las quieres en tu negocio o distribuirlas?</h2>
           <p>Déjanos tus datos y te escribimos por WhatsApp para platicar.</p>
           <p class="contacto__linea">Línea para pedidos: <a href="https://wa.me/526695059646">669 505 9646</a></p>
         </div>
         <form class="formulario" id="formulario" novalidate>
+          <fieldset class="interes">
+            <legend>Me interesa</legend>
+            <label class="interes__opcion"><input type="radio" name="interes" value="tienda" checked> <span>Venderlas en mi negocio</span></label>
+            <label class="interes__opcion"><input type="radio" name="interes" value="distribuidor"> <span>Ser distribuidor</span></label>
+          </fieldset>
           <label>Tu nombre
             <input type="text" name="nombre" autocomplete="name" required>
           </label>
-          <label>Nombre de tu negocio
+          <label><span id="etiqueta-negocio">Nombre de tu negocio</span>
             <input type="text" name="negocio" autocomplete="organization" required>
           </label>
-          <label>Colonia o dirección
+          <label><span id="etiqueta-direccion">Colonia o dirección</span>
             <input type="text" name="direccion" autocomplete="street-address">
           </label>
           <label><span>Mensaje <span class="opcional">(opcional)</span></span>
@@ -209,12 +281,17 @@
       <nav class="pie__menu" aria-label="Pie de página">
         <a href="#sabores">Sabores</a>
         <a href="#negocios">Para tu negocio</a>
+        <a href="#distribuidores">Distribuidores</a>
         <a href="#nosotros">Nosotros</a>
         <a href="#contacto">Contacto</a>
       </nav>
     </div>
     <div class="contenedor pie__legal">
-      <p>© <span id="anio">2026</span> POPS &amp; CO · Delicias, Chihuahua, México</p>
+      <p>© <span id="anio">2026</span> POPS &amp; CO · Propiedad de GRUPO CABENA · Delicias, Chihuahua, México</p>
+    </div>
+    <div class="contenedor marca-agua">
+      <span>Hecho por</span>
+      <img src="assets/img/tendon-blanco.png" alt="tendon" width="410" height="97">
     </div>
   </footer>
 

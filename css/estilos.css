@@ -30,6 +30,7 @@ body {
   color: var(--tinta);
   background: var(--blanco);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -296,12 +297,161 @@ a { color: inherit; }
 .aparece { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
 .aparece.visible { opacity: 1; transform: none; }
 
+/* ---------- Barra superior: GRUPO CABENA ---------- */
+.barra-superior { background: var(--morado-oscuro); color: #D9CCEA; font-family: var(--fuente-sub); font-size: .82rem; }
+.barra-superior__fila { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 34px; }
+.barra-superior p { margin: 0; }
+.barra-superior strong { color: var(--amarillo); font-weight: 700; letter-spacing: .06em; }
+.barra-superior a { color: var(--blanco); text-decoration: none; font-weight: 500; }
+.barra-superior a:hover { color: var(--amarillo); }
+
+/* ---------- Telón de entrada (solo la primera visita de la sesión) ---------- */
+.telon { display: none; }
+.con-telon .telon {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  background: var(--morado); pointer-events: none;
+  animation: telon-sale .8s cubic-bezier(.7, 0, .2, 1) 1.1s forwards;
+}
+.telon img { width: min(320px, 60vw); height: auto; animation: telon-logo .9s cubic-bezier(.2, 1.4, .4, 1) both; }
+@keyframes telon-logo { from { opacity: 0; scale: .6; } to { opacity: 1; scale: 1; } }
+@keyframes telon-sale { to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+.con-telon .portada.cargada .pbolsa--centro { animation-delay: 1.5s; }
+.con-telon .portada.cargada .pbolsa--izq { animation-delay: 1.65s; }
+.con-telon .portada.cargada .pbolsa--der { animation-delay: 1.8s; }
+
+/* ---------- Barra de progreso al bajar ---------- */
+.progreso {
+  position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 60;
+  background: linear-gradient(90deg, var(--morado), #8C4FD0);
+  transform-origin: 0 50%; transform: scaleX(var(--avance, 0));
+}
+
+/* ---------- Eslogan discreto ---------- */
+.lema {
+  display: flex; align-items: center; gap: 12px; margin: -6px 0 18px;
+  font-family: var(--fuente-sub); font-size: .92rem; font-weight: 400;
+  letter-spacing: .14em; text-transform: uppercase; color: rgba(46, 15, 77, .72);
+}
+.lema::before { content: ""; width: 32px; height: 1.5px; background: currentColor; }
+
+/* ---------- Cinta de sabores ---------- */
+.cinta {
+  position: relative; z-index: 3; overflow: hidden; margin: -34px 0 -10px;
+  background: var(--morado); color: var(--amarillo);
+  rotate: -1.6deg; box-shadow: 0 10px 24px rgba(46, 15, 77, .2);
+}
+.cinta__pista { display: flex; align-items: center; gap: 26px; width: max-content; padding: 14px 0; animation: cinta 26s linear infinite; }
+.cinta span { font-family: var(--fuente); font-weight: 700; font-size: 1.25rem; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+.cinta i { width: 26px; height: 26px; background: url(../assets/img/palomitas/palomita-1.webp) center / contain no-repeat; animation: girar 6s linear infinite; }
+@keyframes cinta { to { transform: translateX(-50%); } }
+
+/* ---------- Distribuidores ---------- */
+.seccion--oscuro { background: radial-gradient(circle at 85% 20%, #3B1563, var(--morado-oscuro) 60%); color: var(--blanco); overflow: hidden; }
+.distribuidores { display: grid; grid-template-columns: 1.15fr .85fr; gap: 64px; align-items: center; }
+.distribuidores h2 { color: var(--amarillo); }
+.distribuidores__intro { font-size: 1.15rem; color: #E3D6F3; max-width: 52ch; }
+.distribuidores__intro strong { color: var(--blanco); }
+.ventajas { list-style: none; margin: 28px 0 32px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ventajas li {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 16px; padding: 18px;
+  transition: background-color .25s ease, transform .25s ease;
+}
+.ventajas li:hover { background: rgba(255, 199, 44, .1); transform: translateY(-4px); }
+.ventajas__icono {
+  flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px;
+  background: var(--amarillo); color: var(--morado-oscuro); font-family: var(--fuente-sub); font-weight: 700; font-size: 1.1rem;
+}
+.ventajas h3 { font-size: 1.05rem; color: var(--blanco); margin-bottom: .25em; }
+.ventajas p { margin: 0; font-size: .95rem; color: #CFC0E3; }
+
+.caja { position: relative; height: 460px; max-width: 420px; width: 100%; justify-self: center; }
+.caja__bolsas { position: absolute; left: 6%; right: 6%; bottom: 120px; height: 300px; }
+.caja__bolsas img {
+  position: absolute; bottom: 0; width: 30%; height: auto;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .35));
+  transition: transform .8s cubic-bezier(.2, 1.4, .4, 1), opacity .5s ease;
+  transform: translateY(130px); opacity: 0;
+}
+.caja__bolsas img:nth-child(1) { left: 0;   rotate: -16deg; }
+.caja__bolsas img:nth-child(2) { left: 17%; rotate: -8deg;  transition-delay: .08s; }
+.caja__bolsas img:nth-child(3) { left: 35%; rotate: 0deg;   transition-delay: .16s; z-index: 1; }
+.caja__bolsas img:nth-child(4) { left: 53%; rotate: 8deg;   transition-delay: .24s; }
+.caja__bolsas img:nth-child(5) { left: 70%; rotate: 16deg;  transition-delay: .32s; }
+.caja.visible .caja__bolsas img { transform: none; opacity: 1; }
+.caja__frente {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 170px; z-index: 2;
+  border-radius: 10px 10px 18px 18px;
+  background: linear-gradient(#FFD45E, #F2B300);
+  box-shadow: inset 0 10px 0 rgba(255, 255, 255, .35), 0 24px 40px rgba(0, 0, 0, .35);
+  display: grid; place-content: center; justify-items: center; gap: 10px;
+}
+.caja__frente img { width: 200px; height: auto; }
+.caja__frente span { font-family: var(--fuente-sub); font-size: .85rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--morado); }
+.caja__sello {
+  position: absolute; z-index: 3; right: -10px; bottom: 120px; width: 104px; height: 104px; border-radius: 50%;
+  display: grid; place-items: center; text-align: center;
+  background: var(--blanco); color: var(--morado); border: 3px dashed var(--morado);
+  font-family: var(--fuente-sub); font-weight: 700; font-size: .85rem; line-height: 1.15; text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .3);
+  scale: 0; rotate: -20deg; transition: scale .5s cubic-bezier(.2, 1.6, .4, 1) .6s, rotate .5s ease .6s;
+}
+.caja.visible .caja__sello { scale: 1; rotate: 12deg; }
+
+/* ---------- Formulario: interés ---------- */
+.interes { border: 0; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.interes legend { font-weight: 500; color: var(--morado-oscuro); font-size: .95rem; margin-bottom: 6px; padding: 0; }
+.interes__opcion { display: block !important; position: relative; cursor: pointer; }
+.interes__opcion input { position: absolute; opacity: 0; }
+.interes__opcion span {
+  display: block; text-align: center; padding: 12px 10px; border-radius: 12px;
+  border: 2px solid #E4DCEC; background: #FCFAFE; font-family: var(--fuente-sub); font-weight: 500; color: var(--morado-oscuro);
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+.interes__opcion input:checked + span { background: var(--morado); border-color: var(--morado); color: var(--blanco); }
+.interes__opcion input:focus-visible + span { outline: 3px solid var(--morado); outline-offset: 3px; }
+
+/* ---------- Marca de agua tendon ---------- */
+.marca-agua {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 22px; opacity: .45; transition: opacity .2s ease;
+  font-family: var(--fuente-sub); font-size: .8rem; letter-spacing: .04em;
+}
+.marca-agua:hover { opacity: .8; }
+.marca-agua img { height: 15px; width: auto; }
+
+/* ---------- Botones: destello al pasar ---------- */
+.boton { position: relative; overflow: hidden; isolation: isolate; }
+.boton::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .45) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+.boton:hover::after { transform: translateX(120%); transition: transform .7s ease; }
+.boton--morado::after, .boton--amarillo::after { z-index: 0; }
+
+/* ---------- Títulos que aparecen palabra por palabra ---------- */
+.palabra { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+.palabra > span { display: inline-block; transform: translateY(105%); transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.titulo-anim.visible .palabra > span { transform: none; }
+
+/* ---------- Variantes de aparición ---------- */
+.aparece.desde-izq { transform: translateX(-40px); }
+.aparece.desde-der { transform: translateX(40px); }
+.aparece.zoom { transform: scale(.88); }
+.aparece.cortina { opacity: 1; transform: none; clip-path: inset(100% 0 0 0 round 20px); transition: clip-path .8s cubic-bezier(.7, 0, .2, 1); }
+.aparece.cortina.visible { clip-path: inset(0 0 0 0 round 20px); }
+.aparece.desde-izq.visible, .aparece.desde-der.visible, .aparece.zoom.visible { transform: none; }
+
 /* ---------- Tableta ---------- */
 @media (max-width: 1024px) {
   .portada__dibujo { height: 420px; }
   .pbolsa--centro { width: 170px; margin-left: -85px; }
   .pbolsa--izq, .pbolsa--der { width: 135px; }
   .vitrina { gap: 32px; }
+  .distribuidores { gap: 36px; }
+  .ventajas { grid-template-columns: 1fr; }
   .vitrina__escenario { --alto: 480px; }
 }
 
@@ -360,6 +510,18 @@ a { color: inherit; }
   .negocios__cierre .boton { width: 100%; }
 
   .nosotros, .contacto { grid-template-columns: 1fr; gap: 36px; }
+  .barra-superior__der { display: none; }
+  .barra-superior__fila { justify-content: center; }
+  .lema { font-size: .8rem; letter-spacing: .12em; }
+  .cinta { margin-top: -26px; }
+  .cinta span { font-size: 1rem; }
+  .distribuidores { grid-template-columns: 1fr; }
+  .caja { height: 380px; max-width: 330px; }
+  .caja__bolsas { bottom: 100px; height: 250px; }
+  .caja__frente { height: 140px; }
+  .caja__frente img { width: 160px; }
+  .caja__sello { width: 88px; height: 88px; font-size: .75rem; right: -4px; bottom: 100px; }
+  .distribuidores__texto .boton { width: 100%; }
   .formulario { padding: 24px; }
 
   .pie__fila { flex-direction: column; align-items: flex-start; }
@@ -373,5 +535,9 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .aparece { opacity: 1; transform: none; }
+  .aparece { opacity: 1; transform: none; clip-path: none; }
+  .palabra > span { transform: none; }
+  .caja__bolsas img { transform: none; opacity: 1; }
+  .caja__sello { scale: 1; }
+  .telon { display: none !important; }
 }
