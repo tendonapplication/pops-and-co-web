@@ -19,37 +19,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/bolsas/queso.webp">
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-
-  <!-- Dibujos reutilizables -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <!-- Una palomita -->
-      <symbol id="palomita" viewBox="0 0 100 100">
-        <g fill="#FFF8E6" stroke="#E9C77A" stroke-width="3">
-          <circle cx="50" cy="30" r="22"/>
-          <circle cx="28" cy="48" r="21"/>
-          <circle cx="72" cy="48" r="21"/>
-          <circle cx="38" cy="70" r="20"/>
-          <circle cx="64" cy="70" r="20"/>
-          <circle cx="50" cy="52" r="20" stroke="none"/>
-        </g>
-        <path d="M44 74 q6 10 14 0" fill="#F2B84B" opacity=".55"/>
-      </symbol>
-
-      <!-- Bolsa de palomitas: el color del sabor viene de --acento -->
-      <symbol id="bolsa" viewBox="0 0 200 260">
-        <path d="M22 26 L178 26 L170 246 Q100 258 30 246 Z" fill="#4C1D7A"/>
-        <path d="M22 26 L32 14 L42 26 L52 14 L62 26 L72 14 L82 26 L92 14 L102 26 L112 14 L122 26 L132 14 L142 26 L152 14 L162 26 L172 14 L178 26 Z" fill="#3A1460"/>
-        <rect x="22" y="26" width="156" height="14" fill="#3A1460"/>
-        <path d="M24 150 L176 150 L172 214 L28 214 Z" style="fill:var(--acento, #FFC72C)"/>
-        <rect x="56" y="62" width="88" height="62" rx="31" fill="#FFC72C"/>
-        <use href="#palomita" x="62" y="58" width="76" height="76"/>
-      </symbol>
-    </defs>
-  </svg>
 
   <a class="saltar" href="#contenido">Saltar al contenido</a>
 
@@ -75,12 +48,12 @@
     <!-- INICIO -->
     <section class="portada" id="inicio">
       <div class="portada__palomitas" aria-hidden="true">
-        <svg class="flota f1"><use href="#palomita"/></svg>
-        <svg class="flota f2"><use href="#palomita"/></svg>
-        <svg class="flota f3"><use href="#palomita"/></svg>
-        <svg class="flota f4"><use href="#palomita"/></svg>
-        <svg class="flota f5"><use href="#palomita"/></svg>
-        <svg class="flota f6"><use href="#palomita"/></svg>
+        <img class="flota f1" src="assets/img/palomitas/palomita-1.webp" alt="" data-prof="1.6">
+        <img class="flota f2" src="assets/img/palomitas/palomita-2.webp" alt="" data-prof="0.8">
+        <img class="flota f3" src="assets/img/palomitas/palomita-3.webp" alt="" data-prof="2">
+        <img class="flota f4" src="assets/img/palomitas/palomita-4.webp" alt="" data-prof="1.2">
+        <img class="flota f5" src="assets/img/palomitas/palomita-2.webp" alt="" data-prof="0.6">
+        <img class="flota f6" src="assets/img/palomitas/palomita-1.webp" alt="" data-prof="1.4">
       </div>
       <div class="contenedor portada__fila">
         <div class="portada__texto">
@@ -93,8 +66,9 @@
           </div>
         </div>
         <div class="portada__dibujo" aria-hidden="true">
-          <div class="bolsa bolsa--grande bolsa--atras" style="--acento:#E8481C"><svg><use href="#bolsa"/></svg></div>
-          <div class="bolsa bolsa--grande" style="--acento:#FFC72C"><svg><use href="#bolsa"/></svg><span class="bolsa__nombre">Queso</span></div>
+          <div class="pbolsa pbolsa--izq" data-prof="0.6"><img src="assets/img/bolsas/tradicional.webp" alt="" width="540" height="1200"></div>
+          <div class="pbolsa pbolsa--der" data-prof="0.9"><img src="assets/img/bolsas/adobado.webp" alt="" width="540" height="1200"></div>
+          <div class="pbolsa pbolsa--centro" data-prof="1.3"><img src="assets/img/bolsas/queso.webp" alt="" width="540" height="1200"></div>
         </div>
       </div>
       <svg class="onda" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 Q180 0 360 40 T720 40 T1080 40 T1440 40 V80 H0 Z" fill="#FFFBF2"/></svg>
@@ -102,45 +76,38 @@
 
     <!-- SABORES -->
     <section class="seccion seccion--crema" id="sabores">
-      <div class="contenedor">
-        <div class="titulo">
-          <p class="etiqueta etiqueta--morado">Nuestros sabores</p>
-          <h2>Cinco sabores para cada antojo</h2>
-          <p>Todos en paquete de 140&nbsp;g, listos para el mostrador.</p>
+      <div class="contenedor vitrina" id="vitrina" style="--color:#E9962F">
+        <div class="vitrina__escenario" id="escenario">
+          <div class="vitrina__circulo" aria-hidden="true"></div>
+          <div class="vitrina__giro" id="giro">
+            <img class="vitrina__bolsa" id="vitrina-bolsa" src="assets/img/bolsas/queso.webp" alt="Bolsa de palomitas POPS & CO sabor Queso, 140 g" width="540" height="1200">
+          </div>
+          <div class="vitrina__estallido" id="estallido" aria-hidden="true"></div>
         </div>
 
-        <ul class="sabores">
-          <li class="sabor" style="--acento:#F6D365">
-            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Tradicional</span></div>
-            <h3>Tradicional</h3>
-            <p>La clásica de toda la vida, con su punto de sal.</p>
-            <span class="sabor__peso">140 g</span>
-          </li>
-          <li class="sabor" style="--acento:#FFC72C">
-            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Queso</span></div>
-            <h3>Queso</h3>
-            <p>Bien cubiertas de queso, del primer puñito al último.</p>
-            <span class="sabor__peso">140 g</span>
-          </li>
-          <li class="sabor" style="--acento:#5BBF5A">
-            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Queso Jalapeño</span></div>
-            <h3>Queso Jalapeño</h3>
-            <p>El queso de siempre con el picorcito del jalapeño.</p>
-            <span class="sabor__peso">140 g</span>
-          </li>
-          <li class="sabor" style="--acento:#F26A1B">
-            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Habanero</span></div>
-            <h3>Habanero</h3>
-            <p>Para los valientes: picante de verdad.</p>
-            <span class="sabor__peso">140 g</span>
-          </li>
-          <li class="sabor" style="--acento:#C0392B">
-            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Adobado</span></div>
-            <h3>Adobado</h3>
-            <p>Con el sabor del adobo: chile, especias y mucho antojo.</p>
-            <span class="sabor__peso">140 g</span>
-          </li>
-        </ul>
+        <div class="vitrina__info">
+          <p class="etiqueta etiqueta--morado">Nuestros sabores</p>
+          <h2>Cinco sabores para cada antojo</h2>
+
+          <div class="vitrina__tabs" role="tablist" aria-label="Sabores">
+            <button role="tab" class="sabor-tab" aria-selected="false" data-sabor="tradicional" data-color="#5A4FF0" data-nombre="Tradicional" data-desc="La clásica de toda la vida, con su punto de sal.">Tradicional</button>
+            <button role="tab" class="sabor-tab" aria-selected="true" data-sabor="queso" data-color="#E9962F" data-nombre="Queso" data-desc="Bien cubiertas de queso, del primer puñito al último.">Queso</button>
+            <button role="tab" class="sabor-tab" aria-selected="false" data-sabor="queso-jalapeno" data-color="#2B7A24" data-nombre="Queso Jalapeño" data-desc="El queso de siempre con el picorcito del jalapeño.">Queso Jalapeño</button>
+            <button role="tab" class="sabor-tab" aria-selected="false" data-sabor="habanero-limon" data-color="#E1AE2E" data-nombre="Habanero Limón" data-desc="Picante de habanero con un toque de limón. Para los valientes.">Habanero Limón</button>
+            <button role="tab" class="sabor-tab" aria-selected="false" data-sabor="adobado" data-color="#8A1E1E" data-nombre="Adobado" data-desc="Con el sabor del adobo: chile, especias y mucho antojo.">Adobado</button>
+          </div>
+
+          <div class="vitrina__detalle" id="detalle" role="tabpanel" aria-live="polite">
+            <h3 id="detalle-nombre">Queso</h3>
+            <p id="detalle-desc">Bien cubiertas de queso, del primer puñito al último.</p>
+            <ul class="chips">
+              <li>Palomitas de maíz</li>
+              <li>140 g</li>
+              <li>Bolsa de celofán</li>
+            </ul>
+          </div>
+          <p class="vitrina__pista">Toca un sabor para verlo.</p>
+        </div>
       </div>
     </section>
 
@@ -170,6 +137,17 @@
             <p>Recibes tu comisión por cada paquete que vendes.</p>
           </li>
         </ol>
+
+        <div class="estante" aria-label="Los cinco sabores en el mostrador">
+          <div class="estante__bolsas">
+            <img src="assets/img/bolsas/tradicional.webp" alt="Tradicional" width="540" height="1200" loading="lazy">
+            <img src="assets/img/bolsas/queso.webp" alt="Queso" width="540" height="1200" loading="lazy">
+            <img src="assets/img/bolsas/queso-jalapeno.webp" alt="Queso Jalapeño" width="540" height="1200" loading="lazy">
+            <img src="assets/img/bolsas/habanero-limon.webp" alt="Habanero Limón" width="540" height="1200" loading="lazy">
+            <img src="assets/img/bolsas/adobado.webp" alt="Adobado" width="540" height="1200" loading="lazy">
+          </div>
+          <div class="estante__tabla" aria-hidden="true"></div>
+        </div>
 
         <div class="negocios__cierre">
           <p>¿Tienes una tienda, abarrotes, papelería o cafetería en Delicias?</p>
@@ -202,6 +180,7 @@
           <p class="etiqueta etiqueta--morado">Contacto</p>
           <h2>¿Las quieres en tu negocio?</h2>
           <p>Déjanos tus datos y te escribimos por WhatsApp para platicar.</p>
+          <p class="contacto__linea">Línea para pedidos: <a href="https://wa.me/526695059646">669 505 9646</a></p>
         </div>
         <form class="formulario" id="formulario" novalidate>
           <label>Tu nombre

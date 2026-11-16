@@ -10,7 +10,10 @@ Página estática: no necesita instalar nada ni compilar.
 - `js/main.js`: menú del celular, animaciones y formulario → WhatsApp
   (el número está en la constante `WHATSAPP`).
 - `assets/img/`: logo en versiones morado, blanco y negro, con y sin lema.
-- `assets/original/`: logo original tal como lo entregó el cliente.
+- `assets/img/bolsas/`: bolsas de celofán con la etiqueta de cada sabor (generadas).
+- `assets/original/`: logo y etiquetas originales tal como los entregó el cliente.
+- `herramientas/generar_bolsas.py`: vuelve a dibujar las bolsas si cambia una etiqueta.
+  Reemplazar la etiqueta en `assets/original/etiquetas/` y correr `python herramientas/generar_bolsas.py` (requiere `pip install pillow`).
 
 ## Verla en la computadora
 Dentro de esta carpeta:

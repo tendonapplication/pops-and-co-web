@@ -114,32 +114,37 @@ a { color: inherit; }
 }
 .etiqueta--morado { background: var(--morado-claro); color: var(--morado); }
 
-.portada__dibujo { position: relative; height: 420px; }
-.portada__dibujo .bolsa--grande { position: absolute; width: 260px; right: 4%; top: 10px; transform: rotate(6deg); animation: mecer 6s ease-in-out infinite; }
-.portada__dibujo .bolsa--atras { right: 50%; top: 70px; width: 210px; transform: rotate(-10deg); animation-delay: -3s; opacity: .95; }
+.portada__dibujo { position: relative; height: 500px; }
+.portada__dibujo::before {
+  content: ""; position: absolute; left: 50%; top: 52%; width: 92%; aspect-ratio: 1; translate: -50% -50%;
+  border-radius: 50%; background: radial-gradient(circle at 35% 30%, #6A2FA3, var(--morado) 55%, var(--morado-oscuro));
+  box-shadow: 0 30px 60px rgba(46, 15, 77, .25);
+}
+.pbolsa { position: absolute; top: 0; will-change: transform; }
+.pbolsa img { width: 100%; height: auto; filter: drop-shadow(0 22px 22px rgba(46, 15, 77, .28)); animation: mecer 6s ease-in-out infinite; }
+.pbolsa--centro { width: 200px; left: 50%; margin-left: -100px; top: 10px; z-index: 2; }
+.pbolsa--izq { width: 160px; left: 0; top: 70px; rotate: -14deg; }
+.pbolsa--der { width: 160px; right: 0; top: 70px; rotate: 14deg; }
+.pbolsa--izq img { animation-delay: -2s; }
+.pbolsa--der img { animation-delay: -4s; }
+.portada.cargada .pbolsa { animation: caer .9s cubic-bezier(.2, 1.4, .4, 1) both; }
+.portada.cargada .pbolsa--izq { animation-delay: .15s; }
+.portada.cargada .pbolsa--der { animation-delay: .3s; }
 
-.portada__palomitas .flota { position: absolute; width: 64px; height: 64px; animation: flotar 7s ease-in-out infinite; }
-.f1 { left: 4%;  top: 12%; }
-.f2 { left: 46%; top: 6%;  width: 44px !important; height: 44px !important; animation-delay: -2s !important; }
-.f3 { right: 4%; top: 14%; width: 80px !important; height: 80px !important; animation-delay: -4s !important; }
-.f4 { right: 10%; bottom: 22%; animation-delay: -1s !important; }
+.portada__palomitas .flota { position: absolute; width: 64px; height: 64px; animation: flotar 7s ease-in-out infinite; will-change: transform; }
+.portada__palomitas { position: absolute; inset: 0; pointer-events: none; }
+.f1 { left: 4%;  top: 10%; }
+.f2 { left: 46%; top: 5%;  width: 44px !important; height: 44px !important; animation-delay: -2s !important; }
+.f3 { right: 3%; top: 8%; width: 84px !important; height: 84px !important; animation-delay: -4s !important; }
+.f4 { right: 6%; bottom: 18%; animation-delay: -1s !important; }
 .f5 { left: 50%; bottom: 14%; width: 40px !important; height: 40px !important; animation-delay: -5s !important; }
 .f6 { left: 2%;  bottom: 8%; width: 52px !important; height: 52px !important; animation-delay: -3s !important; }
 
 .onda { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 70px; }
 
-@keyframes flotar { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-14px) rotate(12deg); } }
-@keyframes mecer  { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
-
-/* ---------- Bolsa (dibujo) ---------- */
-.bolsa { position: relative; width: 100%; aspect-ratio: 200 / 260; container-type: inline-size; filter: drop-shadow(0 14px 18px rgba(46, 15, 77, .25)); }
-.bolsa svg { width: 100%; height: 100%; }
-.bolsa__nombre {
-  position: absolute; left: 15%; right: 15%; top: 59%; height: 23%;
-  display: flex; align-items: center; justify-content: center; text-align: center;
-  font-weight: 800; line-height: .95; color: var(--morado-oscuro);
-  font-size: 9.5cqw; text-transform: uppercase; letter-spacing: 0;
-}
+@keyframes flotar { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -16px; rotate: 14deg; } }
+@keyframes mecer  { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+@keyframes caer   { from { opacity: 0; translate: 0 -120px; } to { opacity: 1; translate: 0 0; } }
 
 /* ---------- Secciones ---------- */
 .seccion { padding: 96px 0; }
@@ -152,26 +157,65 @@ a { color: inherit; }
 .titulo--claro h2 { color: var(--amarillo); }
 .titulo--claro p:last-child { color: #E3D6F3; }
 
-/* ---------- Sabores ---------- */
-.sabores {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;
+/* ---------- Sabores (vitrina) ---------- */
+.vitrina { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
+.vitrina__escenario { --alto: 560px; position: relative; height: var(--alto); display: grid; place-items: center; perspective: 900px; }
+.vitrina__circulo {
+  position: absolute; width: min(440px, 92%); aspect-ratio: 1; border-radius: 50%;
+  background: var(--color); transition: background-color .6s ease;
+  box-shadow: inset 0 -30px 60px rgba(0, 0, 0, .12);
 }
-.sabor {
-  background: var(--blanco); border-radius: var(--radio); padding: 28px 20px 24px;
-  text-align: center; box-shadow: var(--sombra);
-  border-top: 6px solid var(--acento);
-  transition: transform .2s ease, box-shadow .2s ease;
-  display: flex; flex-direction: column; align-items: center;
+.vitrina__circulo::after {
+  content: ""; position: absolute; inset: -18px; border-radius: 50%;
+  border: 3px dashed var(--color); opacity: .45; transition: border-color .6s ease;
+  animation: girar 40s linear infinite;
 }
-.sabor:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 18px 40px rgba(46, 15, 77, .18); }
-.sabor .bolsa { width: 72%; margin-bottom: 18px; }
-.sabor h3 { color: var(--morado); margin-bottom: .35em; }
-.sabor p { font-size: .98rem; color: var(--tinta-suave); flex: 1; }
-.sabor__peso {
-  font-size: .85rem; font-weight: 600; color: var(--morado);
-  background: var(--morado-claro); padding: 4px 12px; border-radius: 999px;
+.vitrina__giro { position: relative; z-index: 1; display: grid; place-items: center; transform-style: preserve-3d; transition: transform .25s ease-out; }
+.vitrina__bolsa { height: calc(var(--alto) * .94); width: auto; max-width: none; filter: drop-shadow(0 26px 26px rgba(46, 15, 77, .3)); animation: mecer 5s ease-in-out infinite; }
+.vitrina__estallido { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.vitrina__estallido img { position: absolute; left: 50%; top: 12%; width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+
+.vitrina__info h2 { margin-bottom: 28px; }
+.vitrina__tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+.sabor-tab {
+  font: 600 1rem/1 var(--fuente); cursor: pointer;
+  padding: 12px 18px 12px 14px; border-radius: 999px;
+  border: 2px solid #E4DCEC; background: var(--blanco); color: var(--morado-oscuro);
+  display: inline-flex; align-items: center; gap: 10px;
+  transition: border-color .2s ease, background-color .2s ease, transform .15s ease;
 }
+.sabor-tab::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 3px rgba(255, 255, 255, .9), 0 0 0 4px rgba(0, 0, 0, .08); }
+.sabor-tab:hover { transform: translateY(-2px); border-color: var(--c); }
+.sabor-tab[aria-selected="true"] { background: var(--morado); border-color: var(--morado); color: var(--blanco); }
+
+.vitrina__detalle { background: var(--blanco); border-radius: var(--radio); padding: 28px; box-shadow: var(--sombra); border-left: 8px solid var(--color); transition: border-color .6s ease; }
+.vitrina__detalle h3 { font-size: 1.9rem; color: var(--morado); margin-bottom: .3em; }
+.vitrina__detalle p { color: var(--tinta-suave); font-size: 1.1rem; }
+.vitrina__detalle.cambia h3, .vitrina__detalle.cambia p { animation: entrar .45s ease both; }
+.vitrina__detalle.cambia p { animation-delay: .06s; }
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li { font-size: .88rem; font-weight: 600; color: var(--morado); background: var(--morado-claro); padding: 5px 12px; border-radius: 999px; }
+.vitrina__pista { margin: 16px 0 0; font-size: .95rem; color: var(--tinta-suave); }
+
+@keyframes girar { to { rotate: 360deg; } }
+@keyframes entrar { from { opacity: 0; translate: 0 10px; } to { opacity: 1; translate: 0 0; } }
+
+/* ---------- Estante con los cinco sabores ---------- */
+.estante { margin: 0 auto 56px; max-width: 900px; }
+.estante__bolsas { display: flex; justify-content: center; align-items: flex-end; gap: 2%; padding: 0 4%; }
+.estante__bolsas img {
+  width: 17%; height: auto; transform-origin: 50% 100%;
+  filter: drop-shadow(0 14px 12px rgba(0, 0, 0, .35));
+  transition: transform .3s cubic-bezier(.3, 1.6, .5, 1);
+}
+.estante__bolsas img:hover { transform: translateY(-14px) rotate(-3deg) scale(1.04); }
+.estante__tabla { height: 22px; border-radius: 6px; background: linear-gradient(#FFD45E, #E0A800); box-shadow: 0 14px 24px rgba(0, 0, 0, .3); }
+.estante.visible .estante__bolsas img { animation: brincar .7s cubic-bezier(.3, 1.6, .5, 1) both; }
+.estante.visible .estante__bolsas img:nth-child(2) { animation-delay: .08s; }
+.estante.visible .estante__bolsas img:nth-child(3) { animation-delay: .16s; }
+.estante.visible .estante__bolsas img:nth-child(4) { animation-delay: .24s; }
+.estante.visible .estante__bolsas img:nth-child(5) { animation-delay: .32s; }
+@keyframes brincar { from { opacity: 0; translate: 0 60px; } to { opacity: 1; translate: 0 0; } }
 
 /* ---------- Pasos ---------- */
 .pasos {
@@ -249,10 +293,11 @@ a { color: inherit; }
 
 /* ---------- Tableta ---------- */
 @media (max-width: 1024px) {
-  .sabores { grid-template-columns: repeat(3, 1fr); }
-  .portada__dibujo { height: 360px; }
-  .portada__dibujo .bolsa--grande { width: 220px; }
-  .portada__dibujo .bolsa--atras { width: 180px; }
+  .portada__dibujo { height: 420px; }
+  .pbolsa--centro { width: 170px; margin-left: -85px; }
+  .pbolsa--izq, .pbolsa--der { width: 135px; }
+  .vitrina { gap: 32px; }
+  .vitrina__escenario { --alto: 480px; }
 }
 
 /* ---------- Celular ---------- */
@@ -283,16 +328,24 @@ a { color: inherit; }
 
   .portada { padding: 36px 0 96px; }
   .portada__fila { grid-template-columns: 1fr; gap: 8px; }
-  .portada__dibujo { height: 270px; order: -1; }
-  .portada__dibujo .bolsa--grande { width: 170px; right: 14%; top: 0; }
-  .portada__dibujo .bolsa--atras { width: 140px; right: auto; left: 12%; top: 40px; }
+  .portada__dibujo { height: 300px; order: -1; max-width: 360px; width: 100%; margin: 0 auto; }
+  .pbolsa--centro { width: 125px; margin-left: -62px; }
+  .pbolsa--izq, .pbolsa--der { width: 100px; top: 30px; }
+  .pbolsa--izq { left: 6%; }
+  .pbolsa--der { right: 6%; }
   .botones .boton { flex: 1 1 200px; }
 
-  .sabores { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .sabor { padding: 22px 14px 18px; }
-  .sabor:last-child { grid-column: 1 / -1; max-width: 50%; justify-self: center; width: 100%; }
-  .sabor .bolsa { width: 80%; }
-  .sabor h3 { font-size: 1.1rem; }
+  .vitrina { grid-template-columns: 1fr; gap: 8px; }
+  .vitrina__escenario { --alto: 400px; }
+  .vitrina__circulo { width: min(320px, 86%); }
+  .vitrina__info { text-align: center; }
+  .vitrina__info h2 { margin-bottom: 20px; }
+  .vitrina__tabs { justify-content: center; gap: 8px; }
+  .sabor-tab { padding: 10px 14px 10px 12px; font-size: .95rem; }
+  .vitrina__detalle { text-align: left; padding: 22px; }
+  .vitrina__detalle h3 { font-size: 1.5rem; }
+  .estante { margin-bottom: 36px; }
+  .estante__tabla { height: 14px; }
 
   .pasos { grid-template-columns: 1fr; gap: 14px; margin-bottom: 32px; }
   .paso { padding: 24px; display: grid; grid-template-columns: auto 1fr; column-gap: 16px; align-items: start; }
@@ -309,8 +362,7 @@ a { color: inherit; }
 }
 
 @media (max-width: 420px) {
-  .sabor:last-child { max-width: none; }
-  .sabores { gap: 12px; }
+  .vitrina__escenario { --alto: 360px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

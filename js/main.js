@@ -30,7 +30,7 @@ menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', cerrarMenu
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
 
 // Aparecer al hacer scroll
-const animables = document.querySelectorAll('.titulo, .sabor, .paso, .negocios__cierre, .nosotros__texto, .datos li, .contacto__texto, .formulario');
+const animables = document.querySelectorAll('.titulo, .vitrina__escenario, .vitrina__info, .paso, .estante, .negocios__cierre, .nosotros__texto, .datos li, .contacto__texto, .formulario');
 if ('IntersectionObserver' in window) {
   const observador = new IntersectionObserver((entradas) => {
     entradas.forEach((entrada) => {
@@ -45,6 +45,145 @@ if ('IntersectionObserver' in window) {
     el.style.transitionDelay = `${(i % 5) * 60}ms`;
     observador.observe(el);
   });
+}
+
+const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const conRaton = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+// Portada: las bolsas caen al cargar y todo se mueve un poco con el ratón
+const portada = document.getElementById('inicio');
+if (!sinMovimiento) {
+  requestAnimationFrame(() => portada.classList.add('cargada'));
+  if (conRaton) {
+    const capas = portada.querySelectorAll('[data-prof]');
+    let pendiente = false;
+    portada.addEventListener('pointermove', (e) => {
+      if (pendiente) return;
+      pendiente = true;
+      requestAnimationFrame(() => {
+        const r = portada.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        capas.forEach((c) => {
+          const p = parseFloat(c.dataset.prof);
+          c.style.transform = `translate(${x * p * -24}px, ${y * p * -18}px)`;
+        });
+        pendiente = false;
+      });
+    });
+    portada.addEventListener('pointerleave', () => capas.forEach((c) => { c.style.transform = ''; }));
+  }
+}
+
+// Vitrina de sabores
+const vitrina = document.getElementById('vitrina');
+const bolsa = document.getElementById('vitrina-bolsa');
+const giro = document.getElementById('giro');
+const escenario = document.getElementById('escenario');
+const estallido = document.getElementById('estallido');
+const detalle = document.getElementById('detalle');
+const tabs = [...document.querySelectorAll('.sabor-tab')];
+let actual = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+let cambiando = false;
+
+tabs.forEach((t) => {
+  t.style.setProperty('--c', t.dataset.color);
+  const img = new Image();            // precargar todas las bolsas
+  img.src = `assets/img/bolsas/${t.dataset.sabor}.webp`;
+});
+
+function reventar() {
+  if (sinMovimiento) return;
+  for (let i = 0; i < 9; i++) {
+    const p = document.createElement('img');
+    p.src = `assets/img/palomitas/palomita-${(i % 4) + 1}.webp`;
+    p.alt = '';
+    estallido.appendChild(p);
+    const ang = (-90 + (Math.random() - 0.5) * 150) * Math.PI / 180;
+    const dist = 120 + Math.random() * 120;
+    const dx = Math.cos(ang) * dist;
+    const dy = Math.sin(ang) * dist;
+    const tam = 0.6 + Math.random() * 0.7;
+    p.animate([
+      { transform: `translate(0, 40px) scale(${tam * 0.3}) rotate(0deg)`, opacity: 0 },
+      { transform: `translate(${dx * 0.6}px, ${dy * 0.8}px) scale(${tam}) rotate(${Math.random() * 180}deg)`, opacity: 1, offset: 0.45 },
+      { transform: `translate(${dx}px, ${dy + 160}px) scale(${tam}) rotate(${Math.random() * 360}deg)`, opacity: 0 },
+    ], { duration: 1100 + Math.random() * 400, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = () => p.remove();
+  }
+}
+
+async function elegir(i, desdeUsuario = false) {
+  if (i === actual || cambiando) return;
+  cambiando = true;
+  if (desdeUsuario) detenerAuto();
+  const tab = tabs[i];
+  tabs.forEach((t, n) => {
+    t.setAttribute('aria-selected', String(n === i));
+    t.tabIndex = n === i ? 0 : -1;
+  });
+  vitrina.style.setProperty('--color', tab.dataset.color);
+
+  const direccion = i > actual ? 1 : -1;
+  let salida = null;
+  if (!sinMovimiento) {
+    salida = bolsa.animate(
+      [{ transform: 'none', opacity: 1 }, { transform: `translateX(${-60 * direccion}px) rotate(${-10 * direccion}deg) scale(.9)`, opacity: 0 }],
+      { duration: 220, easing: 'ease-in', fill: 'forwards' });
+    await salida.finished;
+  }
+  bolsa.src = `assets/img/bolsas/${tab.dataset.sabor}.webp`;
+  bolsa.alt = `Bolsa de palomitas POPS & CO sabor ${tab.dataset.nombre}, 140 g`;
+  document.getElementById('detalle-nombre').textContent = tab.dataset.nombre;
+  document.getElementById('detalle-desc').textContent = tab.dataset.desc;
+  detalle.classList.remove('cambia'); void detalle.offsetWidth; detalle.classList.add('cambia');
+
+  if (!sinMovimiento) {
+    salida.cancel();
+    bolsa.animate(
+      [{ transform: `translateX(${70 * direccion}px) translateY(-30px) rotate(${12 * direccion}deg) scale(.9)`, opacity: 0 },
+       { transform: 'none', opacity: 1 }],
+      { duration: 650, easing: 'cubic-bezier(.2,1.5,.4,1)' });
+    setTimeout(reventar, 220);
+  }
+  actual = i;
+  cambiando = false;
+}
+
+tabs.forEach((t, i) => {
+  t.tabIndex = i === actual ? 0 : -1;
+  t.addEventListener('click', () => elegir(i, true));
+  t.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    const n = (actual + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+    elegir(n, true);
+    tabs[n].focus();
+  });
+});
+escenario.addEventListener('click', () => { detenerAuto(); reventar(); });
+
+// Inclinar la bolsa siguiendo el ratón
+if (conRaton && !sinMovimiento) {
+  escenario.addEventListener('pointermove', (e) => {
+    const r = escenario.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    giro.style.transform = `rotateY(${x * 22}deg) rotateX(${y * -12}deg)`;
+  });
+  escenario.addEventListener('pointerleave', () => { giro.style.transform = ''; });
+}
+
+// Cambio automático de sabor mientras la vitrina está a la vista
+let reloj = null;
+let autoActivo = !sinMovimiento;
+function detenerAuto() { autoActivo = false; clearInterval(reloj); }
+if (autoActivo && 'IntersectionObserver' in window) {
+  new IntersectionObserver(([entrada]) => {
+    clearInterval(reloj);
+    if (entrada.isIntersecting && autoActivo) {
+      reloj = setInterval(() => elegir((actual + 1) % tabs.length), 4500);
+    }
+  }, { threshold: 0.4 }).observe(vitrina);
 }
 
 // Formulario → WhatsApp
