@@ -3,7 +3,7 @@
 Página web de POPS & CO hecha desde cero. Dominio: **popsandcompanies.com.mx** (hoy registrado en Canva).
 **Proyecto independiente**: no tiene relación con otros proyectos de la carpeta TENDON; no tocar sus carpetas ni repositorios.
 
-Se publica con GitHub Pages (rama `main`, carpeta raíz). El archivo `CNAME` fija el dominio. **El repositorio es público**: nunca subir contraseñas, llaves ni datos privados.
+Se publica con GitHub Pages (rama `main`, carpeta raíz). El dominio propio se agrega con un archivo `CNAME` cuando esté activo. **El repositorio es público**: nunca subir contraseñas, llaves ni datos privados.
 
 Responder en español, con explicaciones cortas.
 
