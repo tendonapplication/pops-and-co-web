@@ -1,6 +1,6 @@
 # POPS & CO — página web
 
-Sitio web de POPS & CO (palomitas, Delicias, Chihuahua) para el dominio **popsandcompanies.com.mx**.
+Sitio web de POPS & CO (palomitas, Delicias, Chihuahua) para el dominio **popsandco.com.mx**.
 
 Página estática: no necesita instalar nada ni compilar.
 
