@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POPS &amp; CO · Palomitas de Delicias, Chihuahua</title>
+  <meta name="description" content="POPS & CO: palomitas hechas en Delicias, Chihuahua. Cinco sabores en paquetes de 140 g. Llevamos el producto a tu tienda y tú ganas una comisión por cada venta.">
+  <meta name="theme-color" content="#FFC72C">
+  <link rel="canonical" href="https://popsandcompanies.com.mx/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="POPS & CO · De puñito en puñito sabe mejor.">
+  <meta property="og:description" content="Palomitas hechas en Delicias, Chihuahua. Cinco sabores y una forma sencilla de venderlas en tu negocio.">
+  <meta property="og:url" content="https://popsandcompanies.com.mx/">
+  <meta property="og:image" content="https://popsandcompanies.com.mx/assets/img/logo-lema-morado.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- Dibujos reutilizables -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- Una palomita -->
+      <symbol id="palomita" viewBox="0 0 100 100">
+        <g fill="#FFF8E6" stroke="#E9C77A" stroke-width="3">
+          <circle cx="50" cy="30" r="22"/>
+          <circle cx="28" cy="48" r="21"/>
+          <circle cx="72" cy="48" r="21"/>
+          <circle cx="38" cy="70" r="20"/>
+          <circle cx="64" cy="70" r="20"/>
+          <circle cx="50" cy="52" r="20" stroke="none"/>
+        </g>
+        <path d="M44 74 q6 10 14 0" fill="#F2B84B" opacity=".55"/>
+      </symbol>
+
+      <!-- Bolsa de palomitas: el color del sabor viene de --acento -->
+      <symbol id="bolsa" viewBox="0 0 200 260">
+        <path d="M22 26 L178 26 L170 246 Q100 258 30 246 Z" fill="#4C1D7A"/>
+        <path d="M22 26 L32 14 L42 26 L52 14 L62 26 L72 14 L82 26 L92 14 L102 26 L112 14 L122 26 L132 14 L142 26 L152 14 L162 26 L172 14 L178 26 Z" fill="#3A1460"/>
+        <rect x="22" y="26" width="156" height="14" fill="#3A1460"/>
+        <path d="M24 150 L176 150 L172 214 L28 214 Z" style="fill:var(--acento, #FFC72C)"/>
+        <rect x="56" y="62" width="88" height="62" rx="31" fill="#FFC72C"/>
+        <use href="#palomita" x="62" y="58" width="76" height="76"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="encabezado" id="encabezado">
+    <div class="contenedor encabezado__fila">
+      <a href="#inicio" class="encabezado__logo" aria-label="POPS & CO, ir al inicio">
+        <img src="assets/img/logo-morado.png" alt="POPS & CO" width="1489" height="243">
+      </a>
+      <button class="menu-boton" id="menu-boton" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="menu" id="menu" aria-label="Principal">
+        <a href="#sabores">Sabores</a>
+        <a href="#negocios">Para tu negocio</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto" class="boton boton--morado boton--chico">Véndelas en tu tienda</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- INICIO -->
+    <section class="portada" id="inicio">
+      <div class="portada__palomitas" aria-hidden="true">
+        <svg class="flota f1"><use href="#palomita"/></svg>
+        <svg class="flota f2"><use href="#palomita"/></svg>
+        <svg class="flota f3"><use href="#palomita"/></svg>
+        <svg class="flota f4"><use href="#palomita"/></svg>
+        <svg class="flota f5"><use href="#palomita"/></svg>
+        <svg class="flota f6"><use href="#palomita"/></svg>
+      </div>
+      <div class="contenedor portada__fila">
+        <div class="portada__texto">
+          <p class="etiqueta">Palomitas hechas en Delicias, Chihuahua</p>
+          <h1>De puñito en puñito <span>sabe mejor.</span></h1>
+          <p class="portada__intro">Cinco sabores, paquetes de 140&nbsp;g y una forma muy sencilla de tenerlas en tu negocio: nosotros las llevamos y tú ganas por cada venta.</p>
+          <div class="botones">
+            <a href="#negocios" class="boton boton--morado">Quiero venderlas</a>
+            <a href="#sabores" class="boton boton--borde">Ver los sabores</a>
+          </div>
+        </div>
+        <div class="portada__dibujo" aria-hidden="true">
+          <div class="bolsa bolsa--grande bolsa--atras" style="--acento:#E8481C"><svg><use href="#bolsa"/></svg></div>
+          <div class="bolsa bolsa--grande" style="--acento:#FFC72C"><svg><use href="#bolsa"/></svg><span class="bolsa__nombre">Queso</span></div>
+        </div>
+      </div>
+      <svg class="onda" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 Q180 0 360 40 T720 40 T1080 40 T1440 40 V80 H0 Z" fill="#FFFBF2"/></svg>
+    </section>
+
+    <!-- SABORES -->
+    <section class="seccion seccion--crema" id="sabores">
+      <div class="contenedor">
+        <div class="titulo">
+          <p class="etiqueta etiqueta--morado">Nuestros sabores</p>
+          <h2>Cinco sabores para cada antojo</h2>
+          <p>Todos en paquete de 140&nbsp;g, listos para el mostrador.</p>
+        </div>
+
+        <ul class="sabores">
+          <li class="sabor" style="--acento:#F6D365">
+            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Tradicional</span></div>
+            <h3>Tradicional</h3>
+            <p>La clásica de toda la vida, con su punto de sal.</p>
+            <span class="sabor__peso">140 g</span>
+          </li>
+          <li class="sabor" style="--acento:#FFC72C">
+            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Queso</span></div>
+            <h3>Queso</h3>
+            <p>Bien cubiertas de queso, del primer puñito al último.</p>
+            <span class="sabor__peso">140 g</span>
+          </li>
+          <li class="sabor" style="--acento:#5BBF5A">
+            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Queso Jalapeño</span></div>
+            <h3>Queso Jalapeño</h3>
+            <p>El queso de siempre con el picorcito del jalapeño.</p>
+            <span class="sabor__peso">140 g</span>
+          </li>
+          <li class="sabor" style="--acento:#F26A1B">
+            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Habanero</span></div>
+            <h3>Habanero</h3>
+            <p>Para los valientes: picante de verdad.</p>
+            <span class="sabor__peso">140 g</span>
+          </li>
+          <li class="sabor" style="--acento:#C0392B">
+            <div class="bolsa"><svg aria-hidden="true"><use href="#bolsa"/></svg><span class="bolsa__nombre">Adobado</span></div>
+            <h3>Adobado</h3>
+            <p>Con el sabor del adobo: chile, especias y mucho antojo.</p>
+            <span class="sabor__peso">140 g</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PARA TU NEGOCIO -->
+    <section class="seccion seccion--morado" id="negocios">
+      <div class="contenedor">
+        <div class="titulo titulo--claro">
+          <p class="etiqueta">Para tu negocio</p>
+          <h2>Tú vendes, nosotros nos encargamos del resto</h2>
+          <p>Fabricamos las palomitas y las llevamos hasta tu tienda. Tú solo las vendes y ganas una comisión por cada paquete.</p>
+        </div>
+
+        <ol class="pasos">
+          <li class="paso">
+            <span class="paso__numero">1</span>
+            <h3>Nos contactas</h3>
+            <p>Escríbenos y pasamos a conocer tu negocio.</p>
+          </li>
+          <li class="paso">
+            <span class="paso__numero">2</span>
+            <h3>Llevamos el producto</h3>
+            <p>Te dejamos los cinco sabores listos para el mostrador.</p>
+          </li>
+          <li class="paso">
+            <span class="paso__numero">3</span>
+            <h3>Ganas por cada venta</h3>
+            <p>Recibes tu comisión por cada paquete que vendes.</p>
+          </li>
+        </ol>
+
+        <div class="negocios__cierre">
+          <p>¿Tienes una tienda, abarrotes, papelería o cafetería en Delicias?</p>
+          <a href="#contacto" class="boton boton--amarillo">Quiero tenerlas en mi negocio</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section class="seccion" id="nosotros">
+      <div class="contenedor nosotros">
+        <div class="nosotros__texto">
+          <p class="etiqueta etiqueta--morado">Nosotros</p>
+          <h2>Hechas en Delicias, con cariño de casa</h2>
+          <p>POPS &amp; CO nació en 2025 en Delicias, Chihuahua, con una idea sencilla: hacer palomitas ricas, de sabores que nos gustan, y que estén al alcance de la mano en las tiendas de nuestra ciudad.</p>
+          <p>Nosotros las preparamos, las empacamos y las llevamos a cada negocio. Por ahora estamos solo en Delicias, y vamos creciendo de puñito en puñito.</p>
+        </div>
+        <ul class="datos">
+          <li><strong>5</strong><span>sabores</span></li>
+          <li><strong>140&nbsp;g</strong><span>por paquete</span></li>
+          <li><strong>Delicias</strong><span>Chihuahua, México</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="seccion seccion--amarillo" id="contacto">
+      <div class="contenedor contacto">
+        <div class="contacto__texto">
+          <p class="etiqueta etiqueta--morado">Contacto</p>
+          <h2>¿Las quieres en tu negocio?</h2>
+          <p>Déjanos tus datos y te escribimos por WhatsApp para platicar.</p>
+        </div>
+        <form class="formulario" id="formulario" novalidate>
+          <label>Tu nombre
+            <input type="text" name="nombre" autocomplete="name" required>
+          </label>
+          <label>Nombre de tu negocio
+            <input type="text" name="negocio" autocomplete="organization" required>
+          </label>
+          <label>Colonia o dirección
+            <input type="text" name="direccion" autocomplete="street-address">
+          </label>
+          <label><span>Mensaje <span class="opcional">(opcional)</span></span>
+            <textarea name="mensaje" rows="3"></textarea>
+          </label>
+          <button type="submit" class="boton boton--morado">Enviar por WhatsApp</button>
+          <p class="formulario__aviso" id="formulario-aviso" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor pie__fila">
+      <img src="assets/img/logo-lema-blanco.png" alt="POPS & CO. De puñito en puñito sabe mejor." width="1489" height="338" class="pie__logo">
+      <nav class="pie__menu" aria-label="Pie de página">
+        <a href="#sabores">Sabores</a>
+        <a href="#negocios">Para tu negocio</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+    <div class="contenedor pie__legal">
+      <p>© <span id="anio">2026</span> POPS &amp; CO · Delicias, Chihuahua, México</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
