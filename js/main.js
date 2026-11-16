@@ -1,9 +1,8 @@
 // POPS & CO — interacción de la página
 
 // Número de WhatsApp que recibe los mensajes del formulario.
-// Formato: 52 + 10 dígitos, sin espacios ni signos. Ejemplo: '526391234567'
-// PENDIENTE: poner el número real.
-const WHATSAPP = '';
+// Formato: 52 + 10 dígitos, sin espacios ni signos.
+const WHATSAPP = '526695059646'; // 669 505 9646
 
 // Año en el pie de página
 document.getElementById('anio').textContent = new Date().getFullYear();

@@ -7,8 +7,8 @@ Página estática: no necesita instalar nada ni compilar.
 ## Archivos
 - `index.html`: todo el contenido (textos, sabores, secciones).
 - `css/estilos.css`: diseño y colores (amarillo `#FFC72C`, morado `#4C1D7A`).
-- `js/main.js`: menú del celular, animaciones y formulario → WhatsApp.
-  **Pendiente:** poner el número en la constante `WHATSAPP`.
+- `js/main.js`: menú del celular, animaciones y formulario → WhatsApp
+  (el número está en la constante `WHATSAPP`).
 - `assets/img/`: logo en versiones morado, blanco y negro, con y sin lema.
 - `assets/original/`: logo original tal como lo entregó el cliente.
 
