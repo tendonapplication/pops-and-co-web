@@ -13,7 +13,7 @@ Página estática: no necesita instalar nada ni compilar.
 - `assets/img/bolsas/`: bolsas de celofán con la etiqueta de cada sabor (generadas).
 - `assets/original/`: logo y etiquetas originales tal como los entregó el cliente.
 - `herramientas/generar_bolsas.py`: vuelve a dibujar las bolsas si cambia una etiqueta.
-  Reemplazar la etiqueta en `assets/original/etiquetas/` y correr `python herramientas/generar_bolsas.py` (requiere `pip install pillow`).
+  Reemplazar la etiqueta en `assets/original/etiquetas/` y correr `python herramientas/generar_bolsas.py` (requiere `pip install pillow numpy`).
 
 ## Verla en la computadora
 Dentro de esta carpeta:

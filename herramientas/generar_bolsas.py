@@ -5,7 +5,7 @@ etiqueta de 8 x 12 cm al centro y palomitas visibles dentro.
 
 Uso (desde la carpeta del proyecto):
     python herramientas/generar_bolsas.py      (Mac: python3)
-Requiere Pillow:  python -m pip install pillow
+Requiere Pillow y NumPy:  python -m pip install pillow numpy
 
 Salida: assets/img/bolsas/<sabor>.webp, assets/img/etiquetas/<sabor>.webp
 y assets/img/palomitas/palomita-N.webp
@@ -14,6 +14,7 @@ import math
 import os
 import random
 
+import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,14 +28,14 @@ SELLO = int(3.2 * CM)        # alto del sello acanalado
 
 SABORES = {
     'tradicional': dict(
-        base=(250, 241, 218), sombra=(214, 190, 142), luz=(255, 253, 244),
-        casco=(200, 140, 55), polvo=[(255, 255, 255)], polvo_n=0.4),
+        base=(255, 250, 236), sombra=(190, 160, 110), luz=(255, 255, 250),
+        casco=(196, 128, 44), polvo=[(255, 255, 255)], polvo_n=0),
     'queso': dict(
         base=(255, 203, 102), sombra=(226, 146, 38), luz=(255, 232, 158),
         casco=(190, 110, 30), polvo=[(244, 140, 22), (255, 170, 40)], polvo_n=1.0),
     'queso-jalapeno': dict(
         base=(255, 206, 110), sombra=(224, 150, 48), luz=(255, 234, 166),
-        casco=(190, 110, 30), polvo=[(66, 120, 40), (244, 150, 30)], polvo_n=1.0),
+        casco=(190, 110, 30), polvo=[(244, 150, 30), (66, 120, 40), (66, 120, 40)], polvo_n=1.0),
     'habanero-limon': dict(
         base=(255, 178, 92), sombra=(222, 112, 40), luz=(255, 214, 152),
         casco=(180, 90, 30), polvo=[(214, 58, 28), (150, 192, 60)], polvo_n=1.0),
@@ -44,43 +45,101 @@ SABORES = {
 }
 
 
-def mezclar(c1, c2, t):
-    return tuple(int(a + (b - a) * t) for a, b in zip(c1, c2))
+def _desenfocar(arr, radio):
+    """Desenfoque gaussiano de una matriz 0..1 (vía Pillow)."""
+    im = Image.fromarray(np.clip(arr * 255, 0, 255).astype('uint8'))
+    return np.asarray(im.filter(ImageFilter.GaussianBlur(radio)), dtype='float32') / 255
 
 
-def palomita(draw, cx, cy, tam, pal, rng, oscuro=0.0):
-    """Dibuja una palomita: varios lóbulos con sombra, color base y brillo."""
-    sombra = mezclar(pal['sombra'], (60, 40, 30), oscuro * 0.5)
-    base = mezclar(pal['base'], pal['sombra'], oscuro)
-    luz = mezclar(pal['luz'], pal['base'], oscuro)
-    n = rng.randint(5, 7)
+def palomita(pal, rng, tam=220):
+    """Devuelve la imagen de una palomita con volumen.
+
+    Se modela como un relieve (lóbulos esféricos grandes con bultos encima),
+    se ilumina desde arriba a la izquierda y se oscurecen los pliegues.
+    """
+    n = tam * 2                                   # se dibuja al doble y se reduce
+    yy, xx = np.mgrid[0:n, 0:n].astype('float32')
+    alto = np.zeros((n, n), 'float32')
+
+    def esfera(cx, cy, cz, r):
+        d2 = (xx - cx) ** 2 + (yy - cy) ** 2
+        z = cz + np.sqrt(np.clip(r * r - d2, 0, None))
+        np.maximum(alto, np.where(d2 < r * r, z, 0), out=alto)
+
+    c = n / 2
+    lobulos = [(c, c, n * rng.uniform(.17, .21))]
     giro = rng.uniform(0, math.tau)
-    lobulos = []
-    for i in range(n):
-        ang = giro + i * math.tau / n + rng.uniform(-.3, .3)
-        dist = tam * rng.uniform(.18, .34)
-        r = tam * rng.uniform(.26, .38)
-        lobulos.append((cx + math.cos(ang) * dist, cy + math.sin(ang) * dist, r))
-    lobulos.append((cx, cy, tam * .3))
+    cuantos = rng.randint(3, 5)
+    for i in range(cuantos):
+        ang = giro + i * math.tau / cuantos + rng.uniform(-.45, .45)
+        dist = n * rng.uniform(.13, .23)
+        lobulos.append((c + math.cos(ang) * dist, c + math.sin(ang) * dist, n * rng.uniform(.15, .23)))
     for x, y, r in lobulos:
-        draw.ellipse((x - r, y - r, x + r, y + r), fill=sombra + (255,))
-    for x, y, r in lobulos:
-        r2 = r * .86
-        draw.ellipse((x - r2 - r * .06, y - r2 - r * .08, x + r2 - r * .06, y + r2 - r * .08), fill=base + (255,))
-    for x, y, r in lobulos:
-        r3 = r * .42
-        ox, oy = x - r * .28, y - r * .3
-        draw.ellipse((ox - r3, oy - r3, ox + r3, oy + r3), fill=luz + (255,))
-    if rng.random() < .45:  # pedacito de cascarita
+        esfera(x, y, 0, r)
+    for _ in range(rng.randint(12, 18)):          # bultos sobre los lóbulos
+        x0, y0, r0 = rng.choice(lobulos)
         ang = rng.uniform(0, math.tau)
-        x, y = cx + math.cos(ang) * tam * .25, cy + math.sin(ang) * tam * .25
-        r = tam * .09
-        draw.ellipse((x - r, y - r * .7, x + r, y + r * .7), fill=pal['casco'] + (255,))
-    for _ in range(int(rng.randint(3, 9) * pal['polvo_n'])):  # sazonador
-        x = cx + rng.uniform(-.45, .45) * tam
-        y = cy + rng.uniform(-.45, .45) * tam
-        r = tam * rng.uniform(.015, .035)
-        draw.ellipse((x - r, y - r, x + r, y + r), fill=rng.choice(pal['polvo']) + (255,))
+        d = r0 * rng.uniform(.35, .85)
+        r = r0 * rng.uniform(.28, .5)
+        x, y = x0 + math.cos(ang) * d, y0 + math.sin(ang) * d
+        base = math.sqrt(max(r0 * r0 - d * d, 0))
+        esfera(x, y, base * .75, r)
+
+    mascara = alto > 0
+    alto_s = _desenfocar(alto / alto.max(), n * .012) * alto.max()
+    gy, gx = np.gradient(alto_s)
+    norma = np.sqrt(gx * gx + gy * gy + 1)
+    luz_dir = np.array([-.45, -.6, .66]); luz_dir /= np.linalg.norm(luz_dir)
+    difusa = np.clip((-gx * luz_dir[0] - gy * luz_dir[1] + luz_dir[2]) / norma, 0, 1)
+
+    rel = alto / alto.max()
+    pliegue = np.clip((_desenfocar(rel, n * .05) - rel) * 7, 0, 1)      # zonas hundidas
+    sombra_amb = np.clip(1 - pliegue * .85, 0, 1)
+    tono = (.30 + .70 * difusa) * sombra_amb
+    grano = np.asarray(Image.effect_noise((n, n), 40).filter(ImageFilter.GaussianBlur(1.5)), 'float32') / 255 - .5
+    tono = np.clip(tono * (1 + grano * .5), 0, 1)
+
+    base = np.array(pal['base'], 'float32')
+    sombra = np.array(pal['sombra'], 'float32')
+    luz = np.array(pal['luz'], 'float32')
+    casco = np.array(pal['casco'], 'float32')
+    color = sombra + (base - sombra) * tono[..., None]
+    color += (luz - color) * (np.clip(difusa, 0, 1) ** 5 * .55)[..., None]
+    color += (casco - color) * (pliegue ** 1.5 * .55)[..., None]          # pliegues tostados
+
+    # sazonador en manchas irregulares
+    if pal['polvo_n'] > 0:
+        chico = Image.fromarray((np.array([[rng.random() for _ in range(7)] for _ in range(7)]) * 255).astype('uint8'))
+        manchas = np.asarray(chico.resize((n, n), Image.BICUBIC), 'float32') / 255
+        manchas = np.clip((manchas - .35) * 1.8, 0, 1) * .5 * pal['polvo_n']
+        polvo = np.array(pal['polvo'][0], 'float32')
+        color += (polvo * (.55 + .45 * tono[..., None]) - color) * manchas[..., None]
+
+    im = Image.fromarray(np.dstack([np.clip(color, 0, 255), mascara * 255.0]).astype('uint8'), 'RGBA')
+
+    # cascarita y granitos de sazonador
+    extra = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+    d = ImageDraw.Draw(extra)
+    if rng.random() < .6:
+        x, y = c + rng.uniform(-.08, .08) * n, c + rng.uniform(-.08, .08) * n
+        rx, ry = n * rng.uniform(.05, .08), n * rng.uniform(.03, .05)
+        d.ellipse((x - rx, y - ry, x + rx, y + ry), fill=tuple(int(v * .8) for v in pal['casco']) + (230,))
+        d.ellipse((x - rx * .5, y - ry * .7, x + rx * .1, y - ry * .1), fill=pal['casco'] + (255,))
+    for _ in range(int(rng.randint(14, 30) * pal['polvo_n'])):
+        x, y = rng.uniform(.15, .85) * n, rng.uniform(.15, .85) * n
+        r = n * rng.uniform(.004, .011)
+        d.ellipse((x - r, y - r, x + r, y + r), fill=rng.choice(pal['polvo']) + (220,))
+    extra = extra.filter(ImageFilter.GaussianBlur(n * .004))
+    extra.putalpha(ImageChops.multiply(extra.getchannel('A'), im.getchannel('A')))
+    im.alpha_composite(extra)
+    return im.resize((tam, tam), Image.LANCZOS)
+
+
+def sombra_de(im):
+    """Sombra suave de una palomita, para dar profundidad al apilarlas."""
+    s = Image.new('RGBA', im.size, (30, 12, 0, 0))
+    s.putalpha(im.getchannel('A').filter(ImageFilter.GaussianBlur(im.width * .05)).point(lambda v: int(v * .55)))
+    return s
 
 
 def contorno_bolsa():
@@ -110,19 +169,33 @@ def generar_bolsa(sabor, pal, etiqueta_path, semilla):
     cuerpo = Image.new('L', (ANCHO, ALTO), 0)
     ImageDraw.Draw(cuerpo).polygon(contorno_bolsa(), fill=255)
 
-    # --- Palomitas dentro ---
-    relleno = Image.new('RGBA', (ANCHO, ALTO), (0, 0, 0, 0))
-    d = ImageDraw.Draw(relleno)
-    tope = SELLO + int(2.6 * CM)
-    capas = [(.55, 260), (.25, 260), (0.0, 300)]   # (oscuridad, cantidad): de atrás hacia adelante
-    for oscuro, cantidad in capas:
+    # --- Palomitas dentro: tres capas, de atrás (más oscura) hacia adelante ---
+    moldes = [palomita(pal, rng) for _ in range(14)]
+    sombras = [sombra_de(m) for m in moldes]
+    relleno = Image.new('RGBA', (ANCHO, ALTO), tuple(int(v * .45) for v in pal['sombra']) + (255,))
+    tope = SELLO + int(2.4 * CM)
+    for brillo, cantidad in [(.62, 190), (.82, 190), (1.0, 210)]:
         for _ in range(cantidad):
-            x = rng.uniform(-CM, ANCHO + CM)
-            ondula = math.sin(x / ANCHO * math.pi * 3 + semilla) * CM * .6
-            y = rng.uniform(tope + ondula, ALTO + CM)
-            palomita(d, x, y, rng.uniform(1.7, 2.4) * CM, pal, rng, oscuro)
-    relleno = relleno.filter(ImageFilter.GaussianBlur(2))
-    relleno.putalpha(ImageChops.multiply(relleno.getchannel('A'), cuerpo))
+            k = rng.randrange(len(moldes))
+            lado = int(rng.uniform(2.5, 3.4) * CM)
+            ang = rng.uniform(0, 360)
+            m = moldes[k].resize((lado, lado), Image.LANCZOS).rotate(ang, Image.BICUBIC)
+            sm = sombras[k].resize((lado, lado), Image.LANCZOS).rotate(ang, Image.BICUBIC)
+            if brillo < 1:
+                r, g, b, a = m.split()
+                m = Image.merge('RGBA', [c.point(lambda v, f=brillo: int(v * f)) for c in (r, g, b)] + [a])
+            x = int(rng.uniform(-CM, ANCHO) - lado / 2 + CM / 2)
+            ondula = math.sin(x / ANCHO * math.pi * 3 + semilla) * CM * .5
+            y = int(rng.uniform(tope + ondula, ALTO) - lado / 2)
+            relleno.alpha_composite(sm, (max(x + 10, 0), max(y + 16, 0)), (max(-x - 10, 0), max(-y - 16, 0)))
+            relleno.alpha_composite(m, (max(x, 0), max(y, 0)), (max(-x, 0), max(-y, 0)))
+    # arriba de las palomitas la bolsa está vacía (transparente)
+    vacio = Image.new('L', (ANCHO, ALTO), 0)
+    borde_sup = [(x, tope + CM * .9 + math.sin(x / ANCHO * math.pi * 3 + semilla) * CM * .5 + math.sin(x / 55 + semilla) * CM * .28)
+                 for x in range(0, ANCHO + 30, 30)]
+    ImageDraw.Draw(vacio).polygon([(0, ALTO)] + borde_sup + [(ANCHO, ALTO)], fill=255)
+    vacio = vacio.filter(ImageFilter.GaussianBlur(6))
+    relleno.putalpha(ImageChops.multiply(vacio, cuerpo))
     lienzo.alpha_composite(relleno)
 
     # --- Celofán: velo, brillos y arrugas ---
@@ -190,13 +263,9 @@ def generar_bolsa(sabor, pal, etiqueta_path, semilla):
 def generar_palomitas():
     pal = SABORES['tradicional']
     for i in range(4):
-        rng = random.Random(100 + i)
-        tam = 600
-        im = Image.new('RGBA', (tam, tam), (0, 0, 0, 0))
-        palomita(ImageDraw.Draw(im), tam / 2, tam / 2, tam * .62, pal, rng)
-        im = im.filter(ImageFilter.GaussianBlur(1.2)).resize((160, 160), Image.LANCZOS)
+        im = palomita(pal, random.Random(100 + i), tam=320).resize((180, 180), Image.LANCZOS)
         ruta = os.path.join(SALIDA, 'palomitas', f'palomita-{i + 1}.webp')
-        im.save(ruta, 'WEBP', quality=88, method=6)
+        im.save(ruta, 'WEBP', quality=90, method=6)
         print('listo:', ruta)
 
 

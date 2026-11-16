@@ -7,6 +7,8 @@ Se publica con GitHub Pages (rama `main`, carpeta raíz). El archivo `CNAME` fij
 
 Responder en español, con explicaciones cortas.
 
+Fuentes: títulos en Jost (parecida al logo), subtítulos en Google Sans, información en Anuphan (versión libre de Anuparp Thai, que no está en Google Fonts).
+
 ## GitHub
 - Repositorio público: https://github.com/tendonapplication/pops-and-co-web (rama `main`). Se trabaja desde Windows y desde la Mac.
 - Al empezar: `git pull`. Al terminar: commit con mensaje claro y `git push`.

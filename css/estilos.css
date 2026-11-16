@@ -12,7 +12,10 @@
   --blanco: #FFFFFF;
   --radio: 20px;
   --sombra: 0 10px 30px rgba(46, 15, 77, .12);
+  /* Títulos (como el logo), subtítulos e información */
   --fuente: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;
+  --fuente-sub: "Google Sans", "Product Sans", system-ui, sans-serif;
+  --fuente-info: "Anuphan", "Anuparp", system-ui, sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -21,7 +24,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 
 body {
   margin: 0;
-  font-family: var(--fuente);
+  font-family: var(--fuente-info);
   font-size: 18px;
   line-height: 1.6;
   color: var(--tinta);
@@ -33,7 +36,9 @@ img, svg { display: block; max-width: 100%; }
 
 h1, h2, h3 { line-height: 1.1; margin: 0 0 .5em; letter-spacing: -.01em; }
 h2 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; color: var(--morado); }
-h3 { font-size: 1.3rem; font-weight: 600; }
+h1, h2 { font-family: var(--fuente); }
+h3 { font-family: var(--fuente-sub); font-size: 1.3rem; font-weight: 700; letter-spacing: 0; }
+.etiqueta, .menu a, .pie__menu a, .titulo p:last-child, .chips li, .datos strong, .paso__numero, .contacto__linea { font-family: var(--fuente-sub); }
 p { margin: 0 0 1em; }
 
 a { color: inherit; }
@@ -54,7 +59,7 @@ a { color: inherit; }
 .boton {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 14px 26px; border-radius: 999px; border: 2px solid transparent;
-  font: 600 1rem/1 var(--fuente); text-decoration: none; cursor: pointer;
+  font: 500 1rem/1 var(--fuente-sub); text-decoration: none; cursor: pointer;
   transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
 }
 .boton:hover { transform: translateY(-2px); }
@@ -178,7 +183,7 @@ a { color: inherit; }
 .vitrina__info h2 { margin-bottom: 28px; }
 .vitrina__tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
 .sabor-tab {
-  font: 600 1rem/1 var(--fuente); cursor: pointer;
+  font: 500 1rem/1 var(--fuente-sub); cursor: pointer;
   padding: 12px 18px 12px 14px; border-radius: 999px;
   border: 2px solid #E4DCEC; background: var(--blanco); color: var(--morado-oscuro);
   display: inline-flex; align-items: center; gap: 10px;
@@ -266,7 +271,7 @@ a { color: inherit; }
 .formulario label { display: grid; gap: 6px; font-weight: 500; color: var(--morado-oscuro); font-size: .95rem; }
 .opcional { color: var(--tinta-suave); font-weight: 400; }
 .formulario input, .formulario textarea {
-  font: 400 1rem var(--fuente); color: var(--tinta);
+  font: 400 1rem var(--fuente-info); color: var(--tinta);
   border: 2px solid #E4DCEC; border-radius: 12px; padding: 12px 14px; width: 100%;
   background: #FCFAFE; transition: border-color .15s ease;
 }
