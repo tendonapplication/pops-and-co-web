@@ -13,3 +13,5 @@ Fuentes: títulos en Jost (parecida al logo), subtítulos en Google Sans, inform
 - Repositorio público: https://github.com/tendonapplication/pops-and-co-web (rama `main`). Se trabaja desde Windows y desde la Mac.
 - Al empezar: `git pull`. Al terminar: commit con mensaje claro y `git push`.
 - Toda escritura de archivos desde scripts con `encoding='utf-8', newline='\n'` (ver `.gitattributes`).
+
+- Pie: «Hecho por tendon» con enlace a https://tendon.digital (`.marca-agua` en `index.html` y `css/estilos.css`, logo `assets/img/tendon-blanco.png`). Es solo texto/imagen estática: aquí no va aviso de pago ni código de tendon (repositorio público).

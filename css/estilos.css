@@ -415,11 +415,12 @@ a { color: inherit; }
 /* ---------- Marca de agua tendon ---------- */
 .marca-agua {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 22px; opacity: .45; transition: opacity .2s ease;
-  font-family: var(--fuente-sub); font-size: .8rem; letter-spacing: .04em;
+  margin-top: 22px; opacity: .55; transition: opacity .2s ease; color: var(--morado-claro);
+  font-family: var(--fuente-sub); font-size: 9.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; line-height: 1;
 }
-.marca-agua:hover { opacity: .8; }
-.marca-agua img { height: 15px; width: auto; }
+.marca-agua:hover, .marca-agua:focus-within { opacity: .85; }
+.marca-agua a { display: inline-flex; align-items: center; }
+.marca-agua img { height: 11px; width: auto; display: block; }
 
 /* ---------- Botones: destello al pasar ---------- */
 .boton { position: relative; overflow: hidden; isolation: isolate; }
